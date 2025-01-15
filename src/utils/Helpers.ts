@@ -26,7 +26,7 @@ class Helpers {
 
     return "Password is strong";
   };
-  static checkPasswordStrengthBar = (password: string) => {
+  static checkPasswordStrengthBar = (password: string): number => {
     const lengthCriteria = password.length >= 8;
     const hasUpperCase = /[A-Z]/.test(password);
     const hasLowerCase = /[a-z]/.test(password);
