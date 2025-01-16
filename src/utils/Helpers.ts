@@ -41,6 +41,10 @@ class Helpers {
     if (hasSpecialChars) score++;
     return score;
   };
+  static isValidEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 }
 
 export default Helpers;

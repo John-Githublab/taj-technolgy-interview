@@ -1,15 +1,15 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import {
+  Navigate,
+  Route,
   HashRouter as Router,
   Routes,
-  Route,
-  Navigate,
 } from "react-router-dom";
-import SignUp from "./pages/public/signUp/SignUp";
-import Login from "./pages/public/login/Login";
 import "./index.css";
+import ProtectedRoute from "./pages/private/ProtectedRoute";
+import User from "./pages/private/user/User";
+import Login from "./pages/public/login/Login";
+import SignUp from "./pages/public/signUp/SignUp";
+import Profile from "./pages/private/profile/Profile";
 
 function App() {
   return (
@@ -21,22 +21,22 @@ function App() {
         <Route path="/register" element={<SignUp />} />
 
         {/* Private Routes */}
-        {/* <Route
-          path="/dashboard"
+        <Route
+          path="/dashboard/user"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <User />
             </ProtectedRoute>
           }
-        /> */}
-        {/* <Route
+        />
+        <Route
           path="/profile"
           element={
             <ProtectedRoute>
               <Profile />
             </ProtectedRoute>
           }
-        /> */}
+        />
       </Routes>
     </Router>
   );
