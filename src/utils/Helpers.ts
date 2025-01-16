@@ -60,6 +60,9 @@ class Helpers {
     }
     return label;
   };
+  static getLastPath = (location: any) => {
+    return location?.pathname?.split("/")[0];
+  };
 }
 
 export default Helpers;

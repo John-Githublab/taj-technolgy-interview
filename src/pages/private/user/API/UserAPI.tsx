@@ -40,6 +40,19 @@ const userAPI = {
     openNotification("Success", "User Updated Successfully", "success");
     return true;
   },
+  deleteUser: async (body: any): any => {
+    const form = body?.map((value: any) => value?._id);
+    const response: ApiResponse = await APIRequest.request(
+      "POST",
+      ConfigApiUrl.deleteUser,
+      { recordId: form }
+    );
+    if (response && response?.code === 600) {
+      return openNotification("Error", response?.message, "error");
+    }
+    openNotification("Success", "User Deleted Successfully", "success");
+    return true;
+  },
 };
 
 export default userAPI;

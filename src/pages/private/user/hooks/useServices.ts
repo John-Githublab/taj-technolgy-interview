@@ -40,6 +40,13 @@ const useServices = () => {
       setTableForm((p) => ({ ...p, isDrawerOpen: false }));
     }
   };
+  const deleteRecord = async () => {
+    const isCreated = userAPI.deleteUser(tableForm?.selectedRows);
+    if (isCreated) {
+      listAllrecord();
+      setTableForm((p) => ({ ...p, isDrawerOpen: false }));
+    }
+  };
 
   const opendrawer = (isEdit: boolean = false) => {
     // only one record will be able to select
@@ -86,12 +93,12 @@ const useServices = () => {
 
   const tableButtons = useMemo(
     () => [
-      { label: "Create", onClick: () => opendrawer() },
+      { label: "Add User", onClick: () => opendrawer() },
       { label: "Edit", onClick: () => opendrawer(true) },
       {
         isComponent: true,
         component: DeleteConfirmation,
-        props: {},
+        props: { confirm: deleteRecord },
       },
     ],
     [JSON.stringify(tableForm)]

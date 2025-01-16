@@ -9,6 +9,7 @@ const constant = {
     selectedRecord: null,
     type: "",
   },
+  
 };
 
 export default constant;

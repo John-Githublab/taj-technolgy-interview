@@ -16,7 +16,7 @@ const DeleteConfirmation: React.FC = ({ confirm, cancel }: deleteConfirm) => (
     okText="Yes"
     cancelText="No"
   >
-    <Button danger>Delete</Button>
+    <Button danger variant="dashed">Delete</Button>
   </Popconfirm>
 );
 
