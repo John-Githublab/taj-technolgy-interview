@@ -99,7 +99,7 @@ const RegisterForm: React.FC = () => {
           options={constant.userTypes}
           value={formState.role}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-            handleChange("firstName", e.target.value)
+            handleChange("role", e.target.value)
           }
         />
 

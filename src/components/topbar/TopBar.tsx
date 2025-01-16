@@ -15,9 +15,17 @@ const TopBar = ({ text, buttons }: topBarProps) => {
       >
         {text}
       </Text>
-      <div>
-        {buttons?.map((button) => (
-          <Button key={button}>{button}</Button>
+      <div className="flex flex-row gap-x-2">
+        {buttons?.map((button: any) => (
+          <>
+            {button?.isComponent ? (
+              <button.component {...button?.props} />
+            ) : (
+              <Button key={button?.label} onClick={button?.onClick}>
+                {button?.label}
+              </Button>
+            )}
+          </>
         ))}
       </div>
     </div>

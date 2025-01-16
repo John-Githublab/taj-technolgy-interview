@@ -45,6 +45,21 @@ class Helpers {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
+  static getLabel = (type: string) => {
+    let label = "";
+    switch (type) {
+      case "create":
+        label = "Submit";
+        break;
+      case "edit":
+        label = "Update";
+        break;
+      default:
+        label = ""; // Optional: Add a default case
+        break;
+    }
+    return label;
+  };
 }
 
 export default Helpers;

@@ -9,6 +9,7 @@ class ConfigApiUrl {
   static loginUser = this.baseUrl + "/auth/login";
   static registerUser = this.baseUrl + "/auth/register";
   static userList = this.baseUrl + "/admin/users";
+  static updateUser = this.baseUrl + "/admin/users/update";
 }
 
 export default ConfigApiUrl;

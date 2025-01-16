@@ -29,3 +29,12 @@ export interface DataType {
   age: number;
   address: string;
 }
+
+export interface TableConfig {
+  isDrawerOpen: boolean;
+  selectedRows: any[]; // Use a more specific type instead of `any` if possible
+  selectedRecord: any | null; // Replace `any` with a specific type for the record if known
+  type: TableConfigType;
+}
+type TableConfigType = "create" | "edit" | "delete";
+
