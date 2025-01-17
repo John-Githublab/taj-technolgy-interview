@@ -54,6 +54,8 @@ const Login = () => {
         ConfigApiUrl.loginUser,
         form
       );
+      console.log(response);
+
       if (!response) return;
       if (response && response?.code === 600) {
         return openNotification("Error", response?.message, "error");

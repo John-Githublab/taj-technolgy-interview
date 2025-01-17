@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import ConfigApiUrl from "../config/ConfigApiUrl.js";
 import { LoginOutlined } from "@ant-design/icons";
 import { Tooltip } from "antd";
+import Confirmation from "../components/modal/DeleteConfirmation.js";
 
 const TopBar = ({ className }: any) => {
   const context = useContext(AuthContext);
@@ -28,9 +29,16 @@ const TopBar = ({ className }: any) => {
           {context?.first_name}
         </Text>
       </Link>
-      <Tooltip title="Logout">
-        <LoginOutlined onClick={context?.onLogout} />
-      </Tooltip>
+      <Confirmation
+        title="Logout"
+        description="Are you sure you want to logout"
+        hasComponent={true}
+        confirm={context?.onLogout}
+      >
+        <Tooltip title="Logout">
+          <LoginOutlined />
+        </Tooltip>
+      </Confirmation>
     </div>
   );
 };

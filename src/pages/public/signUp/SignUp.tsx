@@ -9,7 +9,7 @@ import constant from "../../../config/Constant";
 import { ApiResponse } from "../../../types/Types";
 import APIRequest from "../../../utils/ApiRequest";
 import { openNotification } from "../../../utils/Notification";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LocalStorage from "../../../utils/LocalStorage";
 import InputPassword from "../../../components/form/InputPassword";
 import ReusableModal from "../../../components/modal/Modal";
@@ -21,8 +21,10 @@ const RegisterForm: React.FC = ({ formData }: any) => {
     last_name: "",
     email: "",
     password: "",
-    role: "admin",
+    role: "",
   });
+
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -38,12 +40,14 @@ const RegisterForm: React.FC = ({ formData }: any) => {
     try {
       setLoading(true);
       e.preventDefault();
+      if (!formState?.role) {
+        return openNotification("Error", "Please choose the role", "error");
+      }
       const response: ApiResponse = await APIRequest.request(
         "POST",
         ConfigApiUrl.registerUser,
         formState
       );
-      console.log(response);
 
       if (!response) return;
       if (response?.code === 600) {
@@ -63,6 +67,9 @@ const RegisterForm: React.FC = ({ formData }: any) => {
     } finally {
       setLoading(false);
     }
+  };
+  const navigateToLoginPage = () => {
+    navigate(ConfigApiUrl.routerurls.login);
   };
 
   return (
@@ -147,7 +154,13 @@ const RegisterForm: React.FC = ({ formData }: any) => {
           </div>
         }
       </form>
-      <ReusableModal title="Verify" open={modalOpen} setOpen={setModalOpen}>
+      <ReusableModal
+        title="Verify"
+        open={modalOpen}
+        setOpen={setModalOpen}
+        onOk={navigateToLoginPage}
+        onCancel={navigateToLoginPage}
+      >
         <span>
           Please check your email to confirm your account. If you don’t see it,
           check your spam folder or contact support

@@ -6,15 +6,20 @@ const TableAction = (buttons: any[]) => {
     key: "action",
     render: (_, record: any) => (
       <Space size="middle">
-        {buttons?.map((btn: any) => (
-          <div
-            className="cursor-pointer text-[#1878FC]"
-            onClick={() => btn?.onClick(record)}
-            key={btn?.label}
-          >
-            {btn?.label}
-          </div>
-        ))}
+        {buttons?.map((btn: any) => {
+          const isDisabled = btn?.disabled?.(record);
+          return (
+            <div
+              className={`${
+                isDisabled ? "text-[#868686]" : "cursor-pointer text-[#1878FC]"
+              } `}
+              onClick={() => !isDisabled && btn?.onClick(record)}
+              key={btn?.label}
+            >
+              {btn?.label}
+            </div>
+          );
+        })}
       </Space>
     ),
   };

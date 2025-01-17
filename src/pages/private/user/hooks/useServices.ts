@@ -112,6 +112,7 @@ const useServices = () => {
   };
 
   const isEdit = () => tableForm?.type === "edit";
+  const isAdmin = (user: any) => user?.role === "admin";
   // buttons at the top
 
   const tableButtons = useMemo(
@@ -127,6 +128,7 @@ const useServices = () => {
         label: "Promote",
         onClick: (record: any) => promoteUsers([record]),
         inlineTable: true,
+        disabled: (record: any) => !isAdmin(record),
       },
       {
         isComponent: true,
