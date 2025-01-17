@@ -17,8 +17,8 @@ import Text from "../../../components/text/Text";
 
 const RegisterForm: React.FC = ({ formData }: any) => {
   const [formState, setFormState] = useState({
-    first_Name: "",
-    last_Name: "",
+    first_name: "",
+    last_name: "",
     email: "",
     password: "",
     role: "admin",
@@ -43,16 +43,21 @@ const RegisterForm: React.FC = ({ formData }: any) => {
         ConfigApiUrl.registerUser,
         formState
       );
-      if (response && response?.code === 600) {
+      console.log(response);
+
+      if (!response) return;
+      if (response?.code === 600) {
         return openNotification("Error", response?.message, "error");
       }
-
-      openNotification(
-        "Success",
-        `User ${"created"} Successfully. Please go back to login page`,
-        "success"
-      );
-      return setModalOpen(true);
+      if (response) {
+        openNotification(
+          "Success",
+          `User ${"created"} Successfully. Please go back to login page`,
+          "success"
+        );
+        setFormState({});
+        return setModalOpen(true);
+      }
     } catch (err) {
       openNotification("Error", err, "error");
     } finally {

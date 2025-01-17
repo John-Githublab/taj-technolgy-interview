@@ -1,3 +1,5 @@
+import { openNotification } from "./Notification";
+
 interface ApiResponse {
   returncode: number;
   errors?: { errormsg: string }[];
@@ -53,7 +55,8 @@ const APIRequest = {
       const data = await response.json();
       return this.returnResponse(data);
     } catch (error) {
-      return { returncode: 0, errors: [{ errormsg: "Timeout Error." }] };
+      openNotification("Error", "An error occured", "error");
+      return null;
     }
   },
 

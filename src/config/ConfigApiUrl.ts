@@ -7,7 +7,8 @@ class ConfigApiUrl {
   };
   static publicRoutes = [this.routerurls.login, this.routerurls.register];
   static userRoleRoutes = [this.routerurls.userProfile];
-  static baseUrl = "http://localhost:4000/api";
+  static baseUrl =
+    import.meta.env.VITE_REACT_APP_Dev_PayDefination_BaseUrl + "/api";
   static loginUser = this.baseUrl + "/auth/login";
   static registerUser = this.baseUrl + "/auth/register";
   static userList = this.baseUrl + "/admin/users";
