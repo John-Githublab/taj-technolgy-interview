@@ -1,5 +1,6 @@
 import { TableColumnsType } from "antd";
 import { DataType } from "../../../../types/Types";
+import Helpers from "../../../../utils/Helpers";
 
 export const columns: TableColumnsType<DataType> = [
   {
@@ -11,40 +12,20 @@ export const columns: TableColumnsType<DataType> = [
   {
     title: "First Name",
     dataIndex: "first_name",
-    filters: [
-      {
-        text: "Joe",
-        value: "Joe",
-      },
-    ],
     filterMode: "tree",
-    filterSearch: true,
-    onFilter: (value, record) => record.name.startsWith(value as string),
     width: "20%",
-    sorter: (a, b) => a.age - b.age,
+    sorter: Helpers.sorter,
   },
   {
     title: "Last Name",
     dataIndex: "last_name",
-    sorter: (a, b) => a.age - b.age,
+    sorter: Helpers.sorter,
     width: "20%",
   },
   {
     title: "Email ID",
     dataIndex: "email",
-    filters: [
-      {
-        text: "London",
-        value: "London",
-      },
-      {
-        text: "New York",
-        value: "New York",
-      },
-    ],
-    sorter: (a, b) => a.age - b.age,
-    onFilter: (value, record) => record.address.startsWith(value as string),
-    filterSearch: true,
+    sorter: Helpers.sorter,
     width: "30%",
   },
   {

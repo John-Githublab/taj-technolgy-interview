@@ -1,11 +1,15 @@
-import { FileOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  TeamOutlined,
+  UsergroupAddOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Layout, Menu, theme } from "antd";
 import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Helpers from "../utils/Helpers";
 import ConfigApiUrl from "../config/ConfigApiUrl";
 import { AuthContext } from "../provider/Auth";
+import Helpers from "../utils/Helpers";
 import TopBar from "./TopBar";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -14,26 +18,16 @@ type MenuItem = Required<MenuProps>["items"][number];
 
 const items: [] = [
   {
-    key: "1",
-    icon: <UserOutlined />,
+    key: "user",
+    icon: <UsergroupAddOutlined />,
     label: "Users",
     path: ConfigApiUrl.routerurls.user,
     isAdminAccess: true,
   },
+
   {
-    key: "1",
-    icon: <TeamOutlined />,
-    label: "Team",
-    children: [
-      { key: "11", label: "Option 1" },
-      { key: "12", label: "Option 2" },
-      { key: "13", label: "Option 3" },
-      { key: "14", label: "Option 4" },
-    ],
-  },
-  {
-    key: "2",
-    icon: <FileOutlined />,
+    key: "profile",
+    icon: <UserOutlined />,
     label: "Profile",
     path: ConfigApiUrl.routerurls.userProfile,
   },
@@ -66,12 +60,11 @@ const Navigation: React.FC = ({ children }) => {
         </div>
         <Menu
           theme="white"
-          defaultSelectedKeys={["1"]}
+          selectedKeys={[lastPath]}
           mode="inline"
-          items={items?.map((value: any) => ({
-            ...value,
-            disabled: value?.isAdminAccess && context?.role !== "admin",
-          }))}
+          items={items?.filter(
+            (value: any) => !value?.isAdminAccess || context?.role === "admin"
+          )}
           className="mt-4"
           onClick={(item) => navigate(`${item?.item?.props?.path}`)}
         />
@@ -79,7 +72,7 @@ const Navigation: React.FC = ({ children }) => {
       <Layout>
         <Header
           style={{ padding: 0, background: colorBgContainer }}
-          className="h-12"
+          className="h-12 shadow-lg"
         >
           <TopBar />
         </Header>
@@ -87,6 +80,7 @@ const Navigation: React.FC = ({ children }) => {
           <div
             style={{
               minHeight: 360,
+              background: "white",
             }}
           >
             {children}

@@ -28,26 +28,29 @@ const TableGrid: React.FC = ({
   pageSize,
   page,
   handleChange,
-}: any) => (
-  <Table<DataType>
-    rowSelection={{
-      type: selectionType || "checkbox",
-      onChange: (selectedkeys, selectedRows) => {
-        onSelection(selectedRows, selectedkeys);
-      },
-      selectedRowKeys: selectedkeys,
-    }}
-    columns={columns}
-    dataSource={data?.map((value: any) => ({ ...value, key: value?._id }))}
-    onChange={onChange}
-    pagination={{
-      defaultCurrent: 1,
-      total: totalRecords,
-      current: page,
-      pageSize: pageSize,
-      onChange: handleChange,
-    }}
-  />
-);
+  tableAction,
+}: any) => {
+  return (
+    <Table<DataType>
+      rowSelection={{
+        type: selectionType || "checkbox",
+        onChange: (selectedkeys, selectedRows) => {
+          onSelection(selectedRows, selectedkeys);
+        },
+        selectedRowKeys: selectedkeys,
+      }}
+      columns={columns}
+      dataSource={data?.map((value: any) => ({ ...value, key: value?._id }))}
+      onChange={onChange}
+      pagination={{
+        defaultCurrent: 1,
+        total: totalRecords,
+        current: page,
+        pageSize: pageSize,
+        onChange: handleChange,
+      }}
+    />
+  );
+};
 
 export default TableGrid;

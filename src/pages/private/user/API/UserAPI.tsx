@@ -63,7 +63,7 @@ const userAPI = {
     if (response && response?.code === 600) {
       return openNotification("Error", response?.message, "error");
     }
-    openNotification("Success", "Users Promoted Successfully", "success");
+    openNotification("Success", "User Promoted Successfully", "success");
     return true;
   },
 };

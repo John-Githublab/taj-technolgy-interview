@@ -44,3 +44,7 @@ a:hover {
 .layout .ant-layout-sider-trigger {
   background-color: white;
 }
+
+.ant-menu-item-selected {
+  background-color: #ecf4ff;
+}

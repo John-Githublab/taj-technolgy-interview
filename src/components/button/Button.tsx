@@ -24,7 +24,7 @@ const Button: React.FC<ButtonProps> = ({
       htmlType={type}
       type={variant}
       disabled={disabled}
-      className={`w-full  bg-[#1677FF] hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 ${className}`}
+      className={`w-full   hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300  rounded-lg text-sm px-5 py-5 text-center  dark:hover:bg-primary-700 dark:focus:ring-primary-800 ${className}`}
       onClick={onClick}
       {...props}
     >

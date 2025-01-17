@@ -37,5 +37,6 @@ export interface TableConfig {
   type: TableConfigType;
   page: number;
   pageSize: number;
+  search?: string;
 }
 type TableConfigType = "create" | "edit" | "delete";

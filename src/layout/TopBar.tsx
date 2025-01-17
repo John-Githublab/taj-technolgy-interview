@@ -8,12 +8,15 @@ import ConfigApiUrl from "../config/ConfigApiUrl.js";
 import { LoginOutlined } from "@ant-design/icons";
 import { Tooltip } from "antd";
 
-const TopBar = () => {
+const TopBar = ({ className }: any) => {
   const context = useContext(AuthContext);
 
   return (
-    <div className="flex items-center justify-end h-full gap-x-4 px-10">
-      <Bell />
+    <div
+      className={
+        "flex items-center justify-end h-full gap-x-4 px-10  " + className || ""
+      }
+    >
       <Link
         to={ConfigApiUrl.routerurls.userProfile}
         className="flex gap-x-2 items-center "
@@ -25,7 +28,7 @@ const TopBar = () => {
           {context?.first_name}
         </Text>
       </Link>
-      <Tooltip title="prompt text">
+      <Tooltip title="Logout">
         <LoginOutlined onClick={context?.onLogout} />
       </Tooltip>
     </div>

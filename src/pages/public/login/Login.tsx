@@ -68,11 +68,16 @@ const Login = () => {
     }
   };
   return (
-    <Section title={"Login to your account"} className="h-screen pt-3" logo={true}>
+    <Section
+      title={"Login"}
+      className="h-screen pt-3"
+      logo={true}
+      subtitle="Please enter details below to access your account"
+    >
       <form className="space-y-4 md:space-y-6 " onSubmit={handleSubmit}>
         <InputField
           id="email"
-          label="Your Email"
+          label="Email ID"
           type="email"
           placeholder="name@company.com"
           value={formState.email}
@@ -84,17 +89,21 @@ const Login = () => {
           id="password"
           label="Password"
           type="password"
-          placeholder="••••••••"
+          placeholder="Enter here"
           value={formState.password}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             handleChange("password", e.target.value)
           }
         />
-        <Button loading={loading}>Login to your account</Button>
-        <div className="text-center text-blue-300">
+        <Button loading={loading} className="font-bold text-[16px]">
+          Login
+        </Button>
+        <div className="text-center text-blue-700 text-[14px] ">
           <Link to={ConfigApiUrl.routerurls.register}>
-            <span className="text-gray-500">Dont have an account? </span> Sign
-            up
+            <span className="text-gray-500 text-[14px]">
+              Dont have an account?{" "}
+            </span>{" "}
+            <span className="font-bold">Sign up</span>
           </Link>
         </div>
       </form>

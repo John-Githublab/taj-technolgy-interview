@@ -61,7 +61,16 @@ class Helpers {
     return label;
   };
   static getLastPath = (location: any) => {
-    return location?.pathname?.split("/")[0];
+    return location?.pathname?.split("/")?.pop();
+  };
+  static sorter = (a: any, b: any) => {
+    if (typeof a?.age === "number" && typeof b?.age === "number") {
+      return a?.age - b?.age; // Numeric comparison
+    }
+    if (typeof a.age === "string" && typeof b.age === "string") {
+      return a.age.localeCompare(b.age); // String comparison
+    }
+    return 1; // Default case for mismatched or invalid data
   };
 }
 

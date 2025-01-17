@@ -12,6 +12,7 @@ const useServices = () => {
   const [tableForm, setTableForm] = useState<TableConfig>({
     ...constant.tableConfig,
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (field: string, value: string) => {
     setUserForm((prev: any) => ({
@@ -23,18 +24,23 @@ const useServices = () => {
   const handlePagination = (page: number, pageSize: number) => {
     setTableForm((p) => ({ ...p, page: page - 1, pageSize }));
   };
-
-  useEffect(() => {
+  const getTableListWithPayload = (keyword: string) => {
     const payload: any = {
       page: tableForm?.page,
       pageSize: tableForm?.pageSize,
+      keyword,
     };
     listAllrecord(payload);
-  }, [tableForm?.page, tableForm?.pageSize]);
+  };
+  useEffect(() => {
+    getTableListWithPayload();
+  }, [JSON.stringify(tableForm?.page), JSON.stringify(tableForm?.pageSize)]);
 
   const listAllrecord = async (body: any) => {
+    setLoading(true);
     const response: UserApiResponse = await userAPI.getusersList(body);
     setTableList(response?.data);
+    setLoading(false);
   };
 
   const createRecord = async (userForm: any, isEdit: boolean = false) => {
@@ -55,32 +61,29 @@ const useServices = () => {
       listAllrecord();
     }
   };
-  const promoteUsers = async () => {
-    if (tableForm?.selectedRows?.length === 0) {
+  const promoteUsers = async (record?: any) => {
+    const data = record || tableForm?.selectedRows;
+    if (data?.length === 0) {
       return openNotification("warning", "Please select one record", "warning");
     }
-    const isCreated = await userAPI.promoteUser(tableForm?.selectedRows);
+    const isCreated = await userAPI.promoteUser(data);
     if (isCreated) {
       listAllrecord();
       closeDrawer();
     }
   };
 
-  const opendrawer = (isEdit: boolean = false) => {
+  const opendrawer = (isEdit: boolean = false, record) => {
     // only one record will be able to select
-
-    if (
-      isEdit &&
-      (tableForm?.selectedRows?.length > 1 ||
-        tableForm?.selectedRows?.length === 0)
-    ) {
+    const data = record || tableForm?.selectedRows;
+    if (isEdit && (data?.length > 1 || record?.length === 0)) {
       return openNotification(
         "warning",
         "Please select one record at a time",
         "warning"
       );
     }
-    const selectedRow = tableForm?.selectedRows?.[0];
+    const selectedRow = data?.[0];
 
     setTableForm((p) => ({
       ...p,
@@ -113,13 +116,24 @@ const useServices = () => {
 
   const tableButtons = useMemo(
     () => [
-      { label: "Add User", onClick: () => opendrawer() },
-      { label: "Edit", onClick: () => opendrawer(true) },
-      { label: "Promote", onClick: () => promoteUsers() },
+      { label: "Create User", onClick: () => opendrawer(), isMain: true },
+      {
+        label: "Edit",
+        onClick: (record: any) => opendrawer(true, [record]),
+        visible: tableForm?.selectedRows?.length === 1,
+        inlineTable: true,
+      },
+      {
+        label: "Promote",
+        onClick: (record: any) => promoteUsers([record]),
+        inlineTable: true,
+      },
       {
         isComponent: true,
         component: DeleteConfirmation,
         props: { confirm: deleteRecord },
+        isMiddle: true,
+        isVisible: tableForm?.selectedRows?.length,
       },
     ],
     [JSON.stringify(tableForm)]
@@ -129,13 +143,17 @@ const useServices = () => {
   const actions = useMemo(
     () => [
       {
+        label: "Close",
+        onClick: closeDrawer,
+        variant: "default",
+      },
+      {
         label: Helpers.getLabel(tableForm.type),
         onClick: () => createRecord(userForm, isEdit()),
         primary: true,
       },
-      { label: "Close", onClick: closeDrawer },
     ],
-    [JSON.stringify(userForm), tableForm.type]
+    [JSON.stringify(userForm), tableForm?.type]
   );
   return {
     tableList,
@@ -153,6 +171,8 @@ const useServices = () => {
     actions,
     handlePagination,
     promoteUsers,
+    loading,
+    getTableListWithPayload,
   };
 };
 

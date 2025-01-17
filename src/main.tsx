@@ -5,8 +5,6 @@ import { ConfigProvider } from "antd";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ConfigProvider theme={{ token: { colorPrimary: "#00b96b" } }}>
-      <App />
-    </ConfigProvider>
+    <App />
   </StrictMode>
 );

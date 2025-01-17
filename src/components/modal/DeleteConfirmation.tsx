@@ -1,6 +1,7 @@
 import { Popconfirm, PopconfirmProps } from "antd";
 import React from "react";
 import Button from "../button/Button";
+import { DeleteOutlined } from "@ant-design/icons";
 
 type deleteConfirm = {
   confirm: PopconfirmProps["onConfirm"];
@@ -16,7 +17,9 @@ const DeleteConfirmation: React.FC = ({ confirm, cancel }: deleteConfirm) => (
     okText="Yes"
     cancelText="No"
   >
-    <Button danger variant="dashed">Delete</Button>
+    <Button variant="dashed" className="!py-4 px-3  font-semibold">
+      <DeleteOutlined /> Delete
+    </Button>
   </Popconfirm>
 );
 

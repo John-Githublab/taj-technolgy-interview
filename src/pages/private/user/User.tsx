@@ -1,36 +1,43 @@
-import { Breadcrumb } from "antd";
+import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
+import Action from "../../../components/drawer/Action";
 import DrawerStack from "../../../components/drawer/Drawer";
 import TableGrid from "../../../components/table/Table";
 import TopBar from "../../../components/topbar/TopBar";
 import AEVForm from "./components/AEVForm";
-import { columns } from "./config/UsertableConfig";
+import TableAction from "./config/Action";
+import { columns } from "./config/UsertableConfig.ts";
 import useServices from "./hooks/useServices";
-import Action from "../../../components/drawer/Action";
 
 const User = () => {
   const location = useLocation();
   const pathNames = location.pathname
     .split("/")
     .filter((value: string) => value);
+
+  // hook for getting functions for table and form
   const service = useServices();
+  // adding action to column
+  const preparedColumn = useMemo(() => {
+    const columnsCopy = [...columns];
+    const tableButtons = service?.tableButtons;
+    columnsCopy?.push(
+      TableAction(tableButtons?.filter((btn) => btn?.inlineTable))
+    );
+    return columnsCopy;
+  }, []);
 
   return (
     <div>
       <TopBar
         text={pathNames[pathNames?.length - 1]}
-        buttons={service?.tableButtons}
+        mainButtons={service?.tableButtons?.filter((btn) => btn?.isMain)}
+        buttons={service?.tableButtons?.filter((btn) => btn?.isMiddle)}
+        service={service}
       />
-      <div style={{ margin: "0 16px", padding: 24 }}>
-        <Breadcrumb className="mt-2 mb-4">
-          {pathNames?.map((value: string) => (
-            <Breadcrumb.Item key={value} className="capitalize">
-              {value}
-            </Breadcrumb.Item>
-          ))}
-        </Breadcrumb>
+      <div style={{ margin: "0 16px", padding: 12 }}>
         <TableGrid
-          columns={columns}
+          columns={preparedColumn}
           data={service?.tableList?.rows}
           onSelection={service?.onSelection}
           selectedkeys={service?.tableForm?.selectedRows?.map(

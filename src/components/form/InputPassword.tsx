@@ -29,9 +29,9 @@ const InputPassword: React.FC<InputFieldProps> = ({
     <div>
       <label
         htmlFor={id}
-        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+        className="block mb-2 text-sm font-semibold text-[#1a1a1a] dark:text-white"
       >
-        {label}
+        {label} {required && <span className="text-[#F5222D]">*</span>}
       </label>
       <Input.Password
         type={type}

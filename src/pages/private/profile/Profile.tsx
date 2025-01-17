@@ -9,6 +9,7 @@ import { ApiResponse } from "../../../types/Types";
 import ConfigApiUrl from "../../../config/ConfigApiUrl";
 import LocalStorage from "../../../utils/LocalStorage";
 import { openNotification } from "../../../utils/Notification";
+import Image from "../../../config/Image";
 
 const Profile = () => {
   const context = useContext(AuthContext);
@@ -50,11 +51,21 @@ const Profile = () => {
       `User ${"Updated"} Successfully`,
       "success"
     );
-    
   };
   return (
     <div className="mx-auto w-auto md:w-[450px] px-10 py-4">
-      <AEVForm formState={userForm} handleChange={handleChange} />
+      <div className="flex justify-center">
+        <img
+          className="w-16 h-16 rounded-full  cursor-pointer  object-cover"
+          src={Image.profile}
+          alt="profile"
+        />
+      </div>
+      <AEVForm
+        formState={userForm}
+        handleChange={handleChange}
+        isRoleDisabled={true}
+      />
       <Button onClick={handleSubmit} className="mt-4">
         Update Profile
       </Button>

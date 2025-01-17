@@ -7,6 +7,8 @@ const Action = ({ actions }: any) => {
     <Space>
       {actions?.map((value) => (
         <Button
+          variant={value?.variant || "primary"}
+          style={value?.style}
           key={value?.label}
           onClick={value?.onClick}
           type={value?.primary ? "button" : "reset"}

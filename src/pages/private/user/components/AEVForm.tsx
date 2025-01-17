@@ -5,7 +5,7 @@ import SelectField from "../../../../components/form/Select";
 import constant from "../../../../config/Constant";
 import InputPassword from "../../../../components/form/InputPassword";
 
-const AEVForm = ({ formState, handleChange, isEdit }: any) => {
+const AEVForm = ({ formState, handleChange, isEdit, isRoleDisabled }: any) => {
   return (
     <div className="flex flex-col gap-y-4">
       <InputField
@@ -34,7 +34,7 @@ const AEVForm = ({ formState, handleChange, isEdit }: any) => {
       {/* Email */}
       <InputField
         id="email"
-        label="Your Email"
+        label="Email ID"
         type="email"
         placeholder="name@company.com"
         value={formState?.email}
@@ -48,7 +48,7 @@ const AEVForm = ({ formState, handleChange, isEdit }: any) => {
             id="password"
             label="Password"
             type="password"
-            placeholder="••••••••"
+            placeholder="Enter password"
             value={formState?.password}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               handleChange("password", e.target.value)
@@ -61,12 +61,13 @@ const AEVForm = ({ formState, handleChange, isEdit }: any) => {
 
       {/* Role Dropdown */}
       <SelectField
+        disabled={isRoleDisabled}
         id="role"
         label="Role"
         options={constant.userTypes}
         value={formState?.role}
         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-          handleChange("role", e.target.value);
+          handleChange("role", e);
         }}
       />
     </div>

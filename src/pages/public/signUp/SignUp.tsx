@@ -25,7 +25,7 @@ const RegisterForm: React.FC = ({ formData }: any) => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [modalOpen, setModalOpen] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleChange = (field: string, value: string) => {
     setFormState((prev: any) => ({
@@ -61,7 +61,11 @@ const RegisterForm: React.FC = ({ formData }: any) => {
   };
 
   return (
-    <Section title={"Create an account"} logo={true}>
+    <Section
+      title={"Signup"}
+      logo={true}
+      subtitle="Create an account to get started with AntDesigns"
+    >
       <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
         {/* First Name */}
         <InputField
@@ -91,7 +95,7 @@ const RegisterForm: React.FC = ({ formData }: any) => {
         {/* Email */}
         <InputField
           id="email"
-          label="Your Email"
+          label="Email ID"
           type="email"
           placeholder="name@company.com"
           value={formState.email}
@@ -105,7 +109,7 @@ const RegisterForm: React.FC = ({ formData }: any) => {
           id="password"
           label="Password"
           type="password"
-          placeholder="••••••••"
+          placeholder="Enter here"
           value={formState.password}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             handleChange("password", e.target.value)
@@ -120,15 +124,17 @@ const RegisterForm: React.FC = ({ formData }: any) => {
           options={constant.userTypes}
           value={formState.role}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-            handleChange("role", e.target.value)
+            handleChange("role", e)
           }
         />
 
         {/* Submit Button */}
-        <Button loading={loading}>{"Create an account"}</Button>
+        <Button loading={loading} className="font-bold text-[16px]">
+          Sign Up
+        </Button>
 
         {
-          <div className="text-center text-blue-300">
+          <div className="text-center text-blue-700 text-[14px]">
             <Link to={ConfigApiUrl.routerurls.login}>
               <span className="text-gray-500">Already have an account?</span>
               <span className="pl-2 font-semibold">Login</span>
