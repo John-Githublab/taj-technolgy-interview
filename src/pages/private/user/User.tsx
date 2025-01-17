@@ -47,6 +47,7 @@ const User = () => {
           current={service?.tableForm?.pages}
           pageSize={service?.tableForm?.pageSize}
           handleChange={service?.handlePagination}
+          loading={service.loading}
         />
         <DrawerStack
           extra={<Action actions={service?.actions} />}

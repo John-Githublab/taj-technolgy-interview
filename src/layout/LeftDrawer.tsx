@@ -11,6 +11,7 @@ import ConfigApiUrl from "../config/ConfigApiUrl";
 import { AuthContext } from "../provider/Auth";
 import Helpers from "../utils/Helpers";
 import TopBar from "./TopBar";
+import Text from "../components/text/Text";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -52,11 +53,17 @@ const Navigation: React.FC = ({ children }) => {
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
       >
-        <div className="demo-logo-vertical flex justify-center mt-4 ">
+        <div className="demo-logo-vertical flex justify-center mt-4 gap-x-3  ">
           <img
             src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
             className="w-[32px]"
           />
+          <Text
+            level={5}
+            className="text-xl  font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
+          >
+            Ant Design
+          </Text>
         </div>
         <Menu
           theme="white"

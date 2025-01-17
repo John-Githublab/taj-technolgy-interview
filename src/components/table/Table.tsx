@@ -28,7 +28,7 @@ const TableGrid: React.FC = ({
   pageSize,
   page,
   handleChange,
-  tableAction,
+  loading,
 }: any) => {
   return (
     <Table<DataType>
@@ -39,6 +39,7 @@ const TableGrid: React.FC = ({
         },
         selectedRowKeys: selectedkeys,
       }}
+      loading={loading}
       columns={columns}
       dataSource={data?.map((value: any) => ({ ...value, key: value?._id }))}
       onChange={onChange}

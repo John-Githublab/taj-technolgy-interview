@@ -128,7 +128,7 @@ const useServices = () => {
         label: "Promote",
         onClick: (record: any) => promoteUsers([record]),
         inlineTable: true,
-        disabled: (record: any) => !isAdmin(record),
+        disabled: (record: any) => isAdmin(record),
       },
       {
         isComponent: true,
