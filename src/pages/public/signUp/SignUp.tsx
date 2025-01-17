@@ -12,6 +12,8 @@ import { openNotification } from "../../../utils/Notification";
 import { Link } from "react-router-dom";
 import LocalStorage from "../../../utils/LocalStorage";
 import InputPassword from "../../../components/form/InputPassword";
+import ReusableModal from "../../../components/modal/Modal";
+import Text from "../../../components/text/Text";
 
 const RegisterForm: React.FC = ({ formData }: any) => {
   const [formState, setFormState] = useState({
@@ -23,6 +25,7 @@ const RegisterForm: React.FC = ({ formData }: any) => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(true);
 
   const handleChange = (field: string, value: string) => {
     setFormState((prev: any) => ({
@@ -44,11 +47,12 @@ const RegisterForm: React.FC = ({ formData }: any) => {
         return openNotification("Error", response?.message, "error");
       }
 
-      return openNotification(
+      openNotification(
         "Success",
         `User ${"created"} Successfully. Please go back to login page`,
         "success"
       );
+      return setModalOpen(true);
     } catch (err) {
       openNotification("Error", err, "error");
     } finally {
@@ -132,6 +136,12 @@ const RegisterForm: React.FC = ({ formData }: any) => {
           </div>
         }
       </form>
+      <ReusableModal title="Verify" open={modalOpen} setOpen={setModalOpen}>
+        <span>
+          Please check your email to confirm your account. If you don’t see it,
+          check your spam folder or contact support
+        </span>
+      </ReusableModal>
     </Section>
   );
 };
