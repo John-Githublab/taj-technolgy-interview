@@ -5,6 +5,7 @@ class ConfigApiUrl {
     login: "/login",
     register: "/register",
   };
+  static publicRoutes = [this.routerurls.login, this.routerurls.register];
   static baseUrl = "http://localhost:4000/api";
   static loginUser = this.baseUrl + "/auth/login";
   static registerUser = this.baseUrl + "/auth/register";

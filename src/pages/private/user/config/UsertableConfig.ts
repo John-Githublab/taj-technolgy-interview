@@ -30,7 +30,7 @@ export const columns: TableColumnsType<DataType> = [
     width: "20%",
   },
   {
-    title: "Email id",
+    title: "Email ID",
     dataIndex: "email",
     filters: [
       {

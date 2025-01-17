@@ -4,7 +4,7 @@ import PasswordStrengthBar from "../../../../components/passwordstrengthBar/Pass
 import SelectField from "../../../../components/form/Select";
 import constant from "../../../../config/Constant";
 
-const AEVForm = ({ formState, handleChange }: any) => {
+const AEVForm = ({ formState, handleChange, isEdit }: any) => {
   return (
     <div className="flex flex-col gap-y-4">
       <InputField
@@ -41,19 +41,22 @@ const AEVForm = ({ formState, handleChange }: any) => {
           handleChange("email", e.target.value)
         }
       />
-
-      {/* Password */}
-      <InputField
-        id="password"
-        label="Password"
-        type="password"
-        placeholder="••••••••"
-        value={formState?.password}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          handleChange("password", e.target.value)
-        }
-      />
-      <PasswordStrengthBar password={formState?.password} />
+      {!isEdit && (
+        <>
+          <InputField
+            id="password"
+            label="Password"
+            type="password"
+            placeholder="••••••••"
+            value={formState?.password}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              handleChange("password", e.target.value)
+            }
+          />
+          {/* Password */}
+          <PasswordStrengthBar password={formState?.password} />
+        </>
+      )}
 
       {/* Role Dropdown */}
       <SelectField

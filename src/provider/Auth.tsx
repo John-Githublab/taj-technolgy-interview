@@ -24,18 +24,14 @@ export const AuthProvider = ({ children }: any) => {
   // Handle redirection based on token status
 
   const authRoutes = () => {
-    return ["/login", "/register"]?.some((value: string) =>
+    return ConfigApiUrl.publicRoutes?.some((value: string) =>
       location?.pathname?.endsWith(value)
     );
   };
 
   const redirectUser = () => {
-    // redirect the user if user is not authenticated
-    if (isExpired) {
-      return navigate(ConfigApiUrl.routerurls.login);
-    }
     // if user is authenticated fallback to a private route
-    if (authRoutes()) {
+    if (isAuthenticated && authRoutes()) {
       if (decodedToken?.role === "user") {
         return navigate(ConfigApiUrl.routerurls.userProfile);
       }
@@ -44,7 +40,7 @@ export const AuthProvider = ({ children }: any) => {
   };
   useEffect(() => {
     redirectUser();
-  }, [isExpired, isAuthenticated, location?.pathname]);
+  }, [isExpired, isAuthenticated]);
 
   // Memoize the context value
   const authValue = useMemo(

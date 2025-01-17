@@ -8,7 +8,7 @@ import { ApiResponse } from "../../../types/Types";
 import APIRequest from "../../../utils/ApiRequest";
 import Helpers from "../../../utils/Helpers";
 import LocalStorage from "../../../utils/LocalStorage";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -82,6 +82,11 @@ const Login = () => {
           }
         />
         <Button>Login to your account</Button>
+        <div className="text-center text-blue-300">
+          <Link to={ConfigApiUrl.routerurls.register}>
+            Dont have an account? Sign up
+          </Link>
+        </div>
       </form>
     </Section>
   );

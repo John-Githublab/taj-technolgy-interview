@@ -12,20 +12,14 @@ import { openNotification } from "../../../utils/Notification";
 import { Link } from "react-router-dom";
 import LocalStorage from "../../../utils/LocalStorage";
 
-const RegisterForm: React.FC = ({ isProfile, text, formData }: any) => {
-  const [formState, setFormState] = useState(
-    formData || {
-      first_Name: "",
-      last_Name: "",
-      email: "",
-      password: "",
-      role: "admin",
-    }
-  );
-
-  useEffect(() => {
-    setFormState(formData);
-  }, [JSON.stringify(formData)]);
+const RegisterForm: React.FC = ({ formData }: any) => {
+  const [formState, setFormState] = useState({
+    first_Name: "",
+    last_Name: "",
+    email: "",
+    password: "",
+    role: "admin",
+  });
 
   const handleChange = (field: string, value: string) => {
     setFormState((prev: any) => ({
@@ -35,13 +29,10 @@ const RegisterForm: React.FC = ({ isProfile, text, formData }: any) => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    if (isProfile) {
-      formState["recordId"] = formState?._id;
-    }
     e.preventDefault();
     const response: ApiResponse = await APIRequest.request(
       "POST",
-      isProfile ? ConfigApiUrl.updateUser : ConfigApiUrl.registerUser,
+      ConfigApiUrl.registerUser,
       formState
     );
     if (response && response?.code === 600) {
@@ -50,13 +41,13 @@ const RegisterForm: React.FC = ({ isProfile, text, formData }: any) => {
 
     return openNotification(
       "Success",
-      `User ${isProfile ? "Updated" : "created"} Successfully`,
+      `User ${"created"} Successfully. Please go back to login page`,
       "success"
     );
   };
 
   return (
-    <Section title={text || "Create an account"} logo={!isProfile}>
+    <Section title={"Create an account"} logo={true}>
       <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
         {/* First Name */}
         <InputField
@@ -119,15 +110,13 @@ const RegisterForm: React.FC = ({ isProfile, text, formData }: any) => {
         />
 
         {/* Submit Button */}
-        <Button>
-          {isProfile ? "Update User details" : "Create an account"}
-        </Button>
+        <Button>{"Create an account"}</Button>
 
-        {!isProfile && (
+        {
           <div className="text-center text-blue-300">
             <Link to={ConfigApiUrl.routerurls.login}>Back to login</Link>
           </div>
-        )}
+        }
       </form>
     </Section>
   );

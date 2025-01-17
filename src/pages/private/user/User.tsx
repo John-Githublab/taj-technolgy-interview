@@ -53,6 +53,7 @@ const User = () => {
             <AEVForm
               formState={service?.userForm}
               handleChange={service?.handleChange}
+              isEdit={service?.tableForm?.type === "edit"}
             />
           )}
         </DrawerStack>
