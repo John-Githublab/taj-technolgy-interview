@@ -36,6 +36,10 @@ const User = () => {
           selectedkeys={service?.tableForm?.selectedRows?.map(
             (value) => value?._id
           )}
+          totalRecords={service?.tableList?.filterRecords}
+          current={service?.tableForm?.pages}
+          pageSize={service?.tableForm?.pageSize}
+          handleChange={service?.handlePagination}
         />
         <DrawerStack
           extra={<Action actions={service?.actions} />}
@@ -45,10 +49,12 @@ const User = () => {
             <div className="capitalize">{service?.tableForm?.type} User</div>
           }
         >
-          <AEVForm
-            formState={service?.userForm}
-            handleChange={service?.handleChange}
-          />
+          {service?.tableForm?.isDrawerOpen && (
+            <AEVForm
+              formState={service?.userForm}
+              handleChange={service?.handleChange}
+            />
+          )}
         </DrawerStack>
       </div>
     </div>

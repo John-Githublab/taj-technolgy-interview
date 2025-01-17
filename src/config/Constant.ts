@@ -8,8 +8,12 @@ const constant = {
     selectedRows: [],
     selectedRecord: null,
     type: "",
+    page: 0,
+    pageSize: 10,
   },
-  
+  userForm: {
+    role: "user",
+  },
 };
 
 export default constant;

@@ -35,6 +35,7 @@ export interface TableConfig {
   selectedRows: any[]; // Use a more specific type instead of `any` if possible
   selectedRecord: any | null; // Replace `any` with a specific type for the record if known
   type: TableConfigType;
+  page: number;
+  pageSize: number;
 }
 type TableConfigType = "create" | "edit" | "delete";
-

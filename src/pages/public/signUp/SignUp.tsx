@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../../components/button/Button";
 import InputField from "../../../components/form/Input"; // Import the InputField component
 import DropdownField from "../../../components/form/Select"; // Import the DropdownField component
@@ -10,15 +10,22 @@ import { ApiResponse } from "../../../types/Types";
 import APIRequest from "../../../utils/ApiRequest";
 import { openNotification } from "../../../utils/Notification";
 import { Link } from "react-router-dom";
+import LocalStorage from "../../../utils/LocalStorage";
 
-const RegisterForm: React.FC = () => {
-  const [formState, setFormState] = useState({
-    first_Name: "",
-    last_Name: "",
-    email: "",
-    password: "",
-    role: "admin",
-  });
+const RegisterForm: React.FC = ({ isProfile, text, formData }: any) => {
+  const [formState, setFormState] = useState(
+    formData || {
+      first_Name: "",
+      last_Name: "",
+      email: "",
+      password: "",
+      role: "admin",
+    }
+  );
+
+  useEffect(() => {
+    setFormState(formData);
+  }, [JSON.stringify(formData)]);
 
   const handleChange = (field: string, value: string) => {
     setFormState((prev: any) => ({
@@ -28,20 +35,28 @@ const RegisterForm: React.FC = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
+    if (isProfile) {
+      formState["recordId"] = formState?._id;
+    }
     e.preventDefault();
     const response: ApiResponse = await APIRequest.request(
       "POST",
-      ConfigApiUrl.registerUser,
+      isProfile ? ConfigApiUrl.updateUser : ConfigApiUrl.registerUser,
       formState
     );
     if (response && response?.code === 600) {
       return openNotification("Error", response?.message, "error");
     }
-    return openNotification("Success", "User created Successfully", "success");
+
+    return openNotification(
+      "Success",
+      `User ${isProfile ? "Updated" : "created"} Successfully`,
+      "success"
+    );
   };
 
   return (
-    <Section title={"Create an account"}>
+    <Section title={text || "Create an account"} logo={!isProfile}>
       <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
         {/* First Name */}
         <InputField
@@ -49,9 +64,9 @@ const RegisterForm: React.FC = () => {
           label="First Name"
           type="text"
           placeholder="John"
-          value={formState.first_Name}
+          value={formState.first_name}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            handleChange("first_Name", e.target.value)
+            handleChange("first_name", e.target.value)
           }
         />
 
@@ -61,9 +76,9 @@ const RegisterForm: React.FC = () => {
           label="Last Name"
           type="text"
           placeholder="Doe"
-          value={formState.last_Name}
+          value={formState.last_name}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            handleChange("last_Name", e.target.value)
+            handleChange("last_name", e.target.value)
           }
         />
 
@@ -104,11 +119,15 @@ const RegisterForm: React.FC = () => {
         />
 
         {/* Submit Button */}
-        <Button>Create an account</Button>
+        <Button>
+          {isProfile ? "Update User details" : "Create an account"}
+        </Button>
 
-        <div className="text-center text-blue-300">
-          <Link to={ConfigApiUrl.routerurls.login}>Back to login</Link>
-        </div>
+        {!isProfile && (
+          <div className="text-center text-blue-300">
+            <Link to={ConfigApiUrl.routerurls.login}>Back to login</Link>
+          </div>
+        )}
       </form>
     </Section>
   );

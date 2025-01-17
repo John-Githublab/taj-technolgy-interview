@@ -14,7 +14,7 @@ const Text: React.FC<TextProps> = ({
   children,
   level = 1,
   className = "",
-  style = {},
+  style = { marginBottom: 0 },
 }) => {
   return (
     <Title level={level} className={className} style={style}>

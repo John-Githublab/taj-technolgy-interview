@@ -7,9 +7,7 @@ import Helpers from "../../../../utils/Helpers";
 import DeleteConfirmation from "../../../../components/modal/DeleteConfirmation";
 
 const useServices = () => {
-  const [userForm, setUserForm] = useState({
-    role: "user",
-  });
+  const [userForm, setUserForm] = useState({ ...constant.userForm });
   const [tableList, setTableList] = useState<any>([]);
   const [tableForm, setTableForm] = useState<TableConfig>({
     ...constant.tableConfig,
@@ -22,12 +20,20 @@ const useServices = () => {
     }));
   };
 
-  useEffect(() => {
-    listAllrecord();
-  }, []);
+  const handlePagination = (page: number, pageSize: number) => {
+    setTableForm((p) => ({ ...p, page: page - 1, pageSize }));
+  };
 
-  const listAllrecord = async () => {
-    const response: UserApiResponse = await userAPI.getusersList({});
+  useEffect(() => {
+    const payload: any = {
+      page: tableForm?.page,
+      pageSize: tableForm?.pageSize,
+    };
+    listAllrecord(payload);
+  }, [tableForm?.page, tableForm?.pageSize]);
+
+  const listAllrecord = async (body: any) => {
+    const response: UserApiResponse = await userAPI.getusersList(body);
     setTableList(response?.data);
   };
 
@@ -37,14 +43,16 @@ const useServices = () => {
       : await userAPI.createUser(userForm);
     if (isCreated) {
       listAllrecord();
-      setTableForm((p) => ({ ...p, isDrawerOpen: false }));
+      closeDrawer();
     }
   };
   const deleteRecord = async () => {
+    if (tableForm?.selectedRows?.length === 0) {
+      return openNotification("warning", "Please select one record", "warning");
+    }
     const isCreated = userAPI.deleteUser(tableForm?.selectedRows);
     if (isCreated) {
       listAllrecord();
-      setTableForm((p) => ({ ...p, isDrawerOpen: false }));
     }
   };
 
@@ -82,6 +90,7 @@ const useServices = () => {
       isDrawerOpen: false,
       selectedRecord: [],
     }));
+    setUserForm({ ...constant.userForm });
   };
   // table selection records
   const onSelection = (row: any) => {
@@ -130,6 +139,7 @@ const useServices = () => {
     closeDrawer,
     tableButtons,
     actions,
+    handlePagination,
   };
 };
 

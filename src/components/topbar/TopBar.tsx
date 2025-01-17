@@ -7,10 +7,10 @@ type topBarProps = {
 };
 const TopBar = ({ text, buttons }: topBarProps) => {
   return (
-    <div className="flex justify-between items-center px-6 pb-2 pt-3   bg-[#FAFAFA]">
+    <div className="flex justify-between items-center px-10 pb-2 pt-3   bg-[#FAFAFA]">
       <Text
         level={3}
-        style={{ marginBottom: 0 }}
+        style={{ marginBottom: 0,fontWeight:"bold" }}
         className="capitalize font-semibold "
       >
         {text}

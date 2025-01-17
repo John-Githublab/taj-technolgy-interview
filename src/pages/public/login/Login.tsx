@@ -52,6 +52,7 @@ const Login = () => {
     if (response && response?.code === 600) {
       return openNotification("Error", response?.message, "error");
     }
+
     const data = response?.data;
     const result = data?.result;
     LocalStorage.set("token", data?.token);

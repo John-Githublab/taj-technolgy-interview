@@ -24,6 +24,10 @@ const TableGrid: React.FC = ({
   selectionType,
   selectedkeys,
   onSelection,
+  totalRecords,
+  pageSize,
+  page,
+  handleChange,
 }: any) => (
   <Table<DataType>
     rowSelection={{
@@ -36,6 +40,13 @@ const TableGrid: React.FC = ({
     columns={columns}
     dataSource={data?.map((value: any) => ({ ...value, key: value?._id }))}
     onChange={onChange}
+    pagination={{
+      defaultCurrent: 1,
+      total: totalRecords,
+      current: page,
+      pageSize: pageSize,
+      onChange: handleChange,
+    }}
   />
 );
 

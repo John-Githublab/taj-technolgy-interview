@@ -10,34 +10,37 @@ import User from "./pages/private/user/User";
 import Login from "./pages/public/login/Login";
 import SignUp from "./pages/public/signUp/SignUp";
 import Profile from "./pages/private/profile/Profile";
+import { AuthProvider } from "./provider/Auth";
 
 function App() {
   return (
     <Router>
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<SignUp />} />
+      <AuthProvider>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<SignUp />} />
 
-        {/* Private Routes */}
-        <Route
-          path="/dashboard/user"
-          element={
-            <ProtectedRoute>
-              <User />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
+          {/* Private Routes */}
+          <Route
+            path="/dashboard/user"
+            element={
+              <ProtectedRoute>
+                <User />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 }

@@ -1,10 +1,12 @@
 import { FileOutlined, TeamOutlined, UserOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Layout, Menu, theme } from "antd";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Helpers from "../utils/Helpers";
 import ConfigApiUrl from "../config/ConfigApiUrl";
+import { AuthContext } from "../provider/Auth";
+import TopBar from "./TopBar";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -16,6 +18,7 @@ const items: [] = [
     icon: <UserOutlined />,
     label: "Users",
     path: ConfigApiUrl.routerurls.user,
+    isAdminAccess: true,
   },
   {
     key: "1",
@@ -45,6 +48,7 @@ const Navigation: React.FC = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const lastPath = Helpers.getLastPath(location);
+  const context = useContext(AuthContext);
 
   return (
     <Layout style={{ minHeight: "100vh" }} className="layout">
@@ -64,7 +68,10 @@ const Navigation: React.FC = ({ children }) => {
           theme="white"
           defaultSelectedKeys={["1"]}
           mode="inline"
-          items={items}
+          items={items?.map((value: any) => ({
+            ...value,
+            disabled: value?.isAdminAccess && context?.role !== "admin",
+          }))}
           className="mt-4"
           onClick={(item) => navigate(`${item?.item?.props?.path}`)}
         />
@@ -73,7 +80,9 @@ const Navigation: React.FC = ({ children }) => {
         <Header
           style={{ padding: 0, background: colorBgContainer }}
           className="h-12"
-        />
+        >
+          <TopBar />
+        </Header>
         <Content>
           <div
             style={{
