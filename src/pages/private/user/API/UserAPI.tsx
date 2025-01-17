@@ -53,6 +53,19 @@ const userAPI = {
     openNotification("Success", "User Deleted Successfully", "success");
     return true;
   },
+  promoteUser: async (body: any): any => {
+    const form = body?.map((value: any) => value?._id);
+    const response: ApiResponse = await APIRequest.request(
+      "POST",
+      ConfigApiUrl.promoteRole,
+      { recordId: form }
+    );
+    if (response && response?.code === 600) {
+      return openNotification("Error", response?.message, "error");
+    }
+    openNotification("Success", "Users Promoted Successfully", "success");
+    return true;
+  },
 };
 
 export default userAPI;

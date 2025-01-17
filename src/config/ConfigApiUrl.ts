@@ -11,6 +11,7 @@ class ConfigApiUrl {
   static userList = this.baseUrl + "/admin/users";
   static updateUser = this.baseUrl + "/admin/users/update";
   static deleteUser = this.baseUrl + "/admin/users/delete";
+  static promoteRole = this.baseUrl + "/admin/users/promote/role"; //get
 }
 
 export default ConfigApiUrl;

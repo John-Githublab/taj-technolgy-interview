@@ -50,9 +50,19 @@ const useServices = () => {
     if (tableForm?.selectedRows?.length === 0) {
       return openNotification("warning", "Please select one record", "warning");
     }
-    const isCreated = userAPI.deleteUser(tableForm?.selectedRows);
+    const isCreated = await userAPI.deleteUser(tableForm?.selectedRows);
     if (isCreated) {
       listAllrecord();
+    }
+  };
+  const promoteUsers = async () => {
+    if (tableForm?.selectedRows?.length === 0) {
+      return openNotification("warning", "Please select one record", "warning");
+    }
+    const isCreated = await userAPI.promoteUser(tableForm?.selectedRows);
+    if (isCreated) {
+      listAllrecord();
+      closeDrawer();
     }
   };
 
@@ -89,6 +99,7 @@ const useServices = () => {
       ...p,
       isDrawerOpen: false,
       selectedRecord: [],
+      selectedRows: [],
     }));
     setUserForm({ ...constant.userForm });
   };
@@ -104,6 +115,7 @@ const useServices = () => {
     () => [
       { label: "Add User", onClick: () => opendrawer() },
       { label: "Edit", onClick: () => opendrawer(true) },
+      { label: "Promote", onClick: () => promoteUsers() },
       {
         isComponent: true,
         component: DeleteConfirmation,
@@ -140,6 +152,7 @@ const useServices = () => {
     tableButtons,
     actions,
     handlePagination,
+    promoteUsers,
   };
 };
 
