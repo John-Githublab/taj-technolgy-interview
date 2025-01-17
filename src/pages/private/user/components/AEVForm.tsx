@@ -3,6 +3,7 @@ import InputField from "../../../../components/form/Input";
 import PasswordStrengthBar from "../../../../components/passwordstrengthBar/PasswordStrengthBar";
 import SelectField from "../../../../components/form/Select";
 import constant from "../../../../config/Constant";
+import InputPassword from "../../../../components/form/InputPassword";
 
 const AEVForm = ({ formState, handleChange, isEdit }: any) => {
   return (
@@ -43,7 +44,7 @@ const AEVForm = ({ formState, handleChange, isEdit }: any) => {
       />
       {!isEdit && (
         <>
-          <InputField
+          <InputPassword
             id="password"
             label="Password"
             type="password"

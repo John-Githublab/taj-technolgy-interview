@@ -29,6 +29,11 @@ export const AuthProvider = ({ children }: any) => {
     );
   };
 
+  const onLogout = () => {
+    LocalStorage.set("token", null);
+    setTimeout(() => window.location.reload(), 200);
+  };
+
   const redirectUser = () => {
     // if user is authenticated fallback to a private route
     if (isAuthenticated && authRoutes()) {
@@ -44,7 +49,7 @@ export const AuthProvider = ({ children }: any) => {
 
   // Memoize the context value
   const authValue = useMemo(
-    () => ({ ...decodedToken, isExpired, isAuthenticated }),
+    () => ({ ...decodedToken, isExpired, isAuthenticated, onLogout }),
     [decodedToken, isExpired, isAuthenticated]
   );
 

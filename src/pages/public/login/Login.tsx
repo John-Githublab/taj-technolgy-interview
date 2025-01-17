@@ -9,6 +9,7 @@ import APIRequest from "../../../utils/ApiRequest";
 import Helpers from "../../../utils/Helpers";
 import LocalStorage from "../../../utils/LocalStorage";
 import { Link, useNavigate } from "react-router-dom";
+import InputPassword from "../../../components/form/InputPassword";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,6 +17,8 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleChange = (field: string, value: string) => {
     setFormState((prev: any) => ({
@@ -34,32 +37,38 @@ const Login = () => {
       : ConfigApiUrl.routerurls.userProfile;
 
     openNotification("Success", message, "success");
-    setTimeout(() => navigate(redirectUrl), 200);
+    setTimeout(() => navigate(redirectUrl), 300);
   };
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const form = { ...formState };
-    form["email"] = form?.email?.toLowerCase();
-    if (!Helpers.isValidEmail(form?.email)) {
-      return openNotification("Error", "Please provide valid email", "error");
-    }
+    try {
+      setLoading(true);
+      e.preventDefault();
+      const form = { ...formState };
+      form["email"] = form?.email?.toLowerCase();
+      if (!Helpers.isValidEmail(form?.email)) {
+        return openNotification("Error", "Please provide valid email", "error");
+      }
 
-    const response: ApiResponse = await APIRequest.request(
-      "POST",
-      ConfigApiUrl.loginUser,
-      form
-    );
-    if (response && response?.code === 600) {
-      return openNotification("Error", response?.message, "error");
-    }
+      const response: ApiResponse = await APIRequest.request(
+        "POST",
+        ConfigApiUrl.loginUser,
+        form
+      );
+      if (response && response?.code === 600) {
+        return openNotification("Error", response?.message, "error");
+      }
 
-    const data = response?.data;
-    const result = data?.result;
-    LocalStorage.set("token", data?.token);
-    redirectUser(result);
+      const data = response?.data;
+      const result = data?.result;
+      LocalStorage.set("token", data?.token);
+      redirectUser(result);
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
   };
   return (
-    <Section title={"Login to your account"} className="h-screen">
+    <Section title={"Login to your account"} className="h-screen pt-3" logo={true}>
       <form className="space-y-4 md:space-y-6 " onSubmit={handleSubmit}>
         <InputField
           id="email"
@@ -71,7 +80,7 @@ const Login = () => {
             handleChange("email", e.target.value)
           }
         />
-        <InputField
+        <InputPassword
           id="password"
           label="Password"
           type="password"
@@ -81,10 +90,11 @@ const Login = () => {
             handleChange("password", e.target.value)
           }
         />
-        <Button>Login to your account</Button>
+        <Button loading={loading}>Login to your account</Button>
         <div className="text-center text-blue-300">
           <Link to={ConfigApiUrl.routerurls.register}>
-            Dont have an account? Sign up
+            <span className="text-gray-500">Dont have an account? </span> Sign
+            up
           </Link>
         </div>
       </form>

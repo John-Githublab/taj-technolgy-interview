@@ -11,6 +11,7 @@ import APIRequest from "../../../utils/ApiRequest";
 import { openNotification } from "../../../utils/Notification";
 import { Link } from "react-router-dom";
 import LocalStorage from "../../../utils/LocalStorage";
+import InputPassword from "../../../components/form/InputPassword";
 
 const RegisterForm: React.FC = ({ formData }: any) => {
   const [formState, setFormState] = useState({
@@ -21,6 +22,8 @@ const RegisterForm: React.FC = ({ formData }: any) => {
     role: "admin",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (field: string, value: string) => {
     setFormState((prev: any) => ({
       ...prev,
@@ -29,21 +32,28 @@ const RegisterForm: React.FC = ({ formData }: any) => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const response: ApiResponse = await APIRequest.request(
-      "POST",
-      ConfigApiUrl.registerUser,
-      formState
-    );
-    if (response && response?.code === 600) {
-      return openNotification("Error", response?.message, "error");
-    }
+    try {
+      setLoading(true);
+      e.preventDefault();
+      const response: ApiResponse = await APIRequest.request(
+        "POST",
+        ConfigApiUrl.registerUser,
+        formState
+      );
+      if (response && response?.code === 600) {
+        return openNotification("Error", response?.message, "error");
+      }
 
-    return openNotification(
-      "Success",
-      `User ${"created"} Successfully. Please go back to login page`,
-      "success"
-    );
+      return openNotification(
+        "Success",
+        `User ${"created"} Successfully. Please go back to login page`,
+        "success"
+      );
+    } catch (err) {
+      openNotification("Error", err, "error");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -59,6 +69,7 @@ const RegisterForm: React.FC = ({ formData }: any) => {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             handleChange("first_name", e.target.value)
           }
+          required={true}
         />
 
         {/* Last Name */}
@@ -86,7 +97,7 @@ const RegisterForm: React.FC = ({ formData }: any) => {
         />
 
         {/* Password */}
-        <InputField
+        <InputPassword
           id="password"
           label="Password"
           type="password"
@@ -110,11 +121,14 @@ const RegisterForm: React.FC = ({ formData }: any) => {
         />
 
         {/* Submit Button */}
-        <Button>{"Create an account"}</Button>
+        <Button loading={loading}>{"Create an account"}</Button>
 
         {
           <div className="text-center text-blue-300">
-            <Link to={ConfigApiUrl.routerurls.login}>Back to login</Link>
+            <Link to={ConfigApiUrl.routerurls.login}>
+              <span className="text-gray-500">Already have an account?</span>
+              <span className="pl-2 font-semibold">Login</span>
+            </Link>
           </div>
         }
       </form>

@@ -5,6 +5,8 @@ import Image from "../config/Image.js";
 import Text from "../components/text/Text.js";
 import { Link } from "react-router-dom";
 import ConfigApiUrl from "../config/ConfigApiUrl.js";
+import { LoginOutlined } from "@ant-design/icons";
+import { Tooltip } from "antd";
 
 const TopBar = () => {
   const context = useContext(AuthContext);
@@ -23,6 +25,9 @@ const TopBar = () => {
           {context?.first_name}
         </Text>
       </Link>
+      <Tooltip title="prompt text">
+        <LoginOutlined onClick={context?.onLogout} />
+      </Tooltip>
     </div>
   );
 };

@@ -7,6 +7,7 @@ const strengthBarStyle = [
   "bg-yellow-400",
   "bg-green-400",
   "bg-green-600",
+  "bg-green-800",
 ];
 
 const PasswordStrengthBar = (props: { password: string }) => {
