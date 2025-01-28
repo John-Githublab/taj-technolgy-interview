@@ -1,6 +1,6 @@
 import { openNotification } from "./Notification";
 
-interface ApiResponse {
+export interface ApiResponse {
   returncode: number;
   errors?: { errormsg: string }[];
   [key: string]: any; // To handle additional properties in the API response
@@ -15,7 +15,7 @@ const APIRequest = {
     method: string,
     url: string,
     body: string | object = ""
-  ): Promise<ApiResponse> {
+  ): Promise<ApiResponse | null> {
     let config: RequestConfig = {
       method: method,
       headers: {

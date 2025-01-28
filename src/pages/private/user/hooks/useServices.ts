@@ -1,30 +1,31 @@
 import { useEffect, useMemo, useState } from "react";
-import { TableConfig, UserApiResponse } from "../../../../types/Types";
-import userAPI from "../API/UserAPI";
-import constant from "../../../../config/Constant";
-import { openNotification } from "../../../../utils/Notification";
-import Helpers from "../../../../utils/Helpers";
 import DeleteConfirmation from "../../../../components/modal/DeleteConfirmation";
+import constant from "../../../../config/Constant";
+import { TableConfig, User, UserListType } from "../../../../types/Types";
+import Helpers from "../../../../utils/Helpers";
+import { openNotification } from "../../../../utils/Notification";
+import userAPI from "../API/UserAPI";
 
 const useServices = () => {
   const [userForm, setUserForm] = useState({ ...constant.userForm });
-  const [tableList, setTableList] = useState<any>([]);
+  const [tableList, setTableList] = useState<UserListType>();
   const [tableForm, setTableForm] = useState<TableConfig>({
     ...constant.tableConfig,
   });
-  const [loading, setLoading] = useState(false);
 
-  const handleChange = (field: string, value: string) => {
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const handleChange = (field: string, value: string): void => {
     setUserForm((prev: any) => ({
       ...prev,
       [field]: value,
     }));
   };
 
-  const handlePagination = (page: number, pageSize: number) => {
+  const handlePagination = (page: number, pageSize: number): void => {
     setTableForm((p) => ({ ...p, page: page - 1, pageSize }));
   };
-  const getTableListWithPayload = (keyword: string) => {
+  const getTableListWithPayload = (keyword?: string) => {
     const payload: any = {
       page: tableForm?.page,
       pageSize: tableForm?.pageSize,
@@ -36,9 +37,9 @@ const useServices = () => {
     getTableListWithPayload();
   }, [JSON.stringify(tableForm?.page), JSON.stringify(tableForm?.pageSize)]);
 
-  const listAllrecord = async (body: any) => {
+  const listAllrecord = async (body?: any) => {
     setLoading(true);
-    const response: UserApiResponse = await userAPI.getusersList(body);
+    const response = await userAPI.getusersList(body);
     setTableList(response?.data);
     setLoading(false);
   };
@@ -73,7 +74,7 @@ const useServices = () => {
     }
   };
 
-  const opendrawer = (isEdit: boolean = false, record) => {
+  const opendrawer = (isEdit: boolean = false, record?: User[]) => {
     // only one record will be able to select
     const data = record || tableForm?.selectedRows;
     if (isEdit && (data?.length > 1 || record?.length === 0)) {
@@ -117,7 +118,7 @@ const useServices = () => {
 
   const tableButtons = useMemo(
     () => [
-      { label: "Create User", onClick: () => opendrawer(), isMain: true },
+      { label: "Create User", onClick: () => opendrawer(false), isMain: true },
       {
         label: "Edit",
         onClick: (record: any) => opendrawer(true, [record]),

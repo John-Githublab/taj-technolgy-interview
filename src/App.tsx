@@ -1,3 +1,4 @@
+import React, { Suspense } from "react";
 import {
   Navigate,
   Route,
@@ -5,12 +6,15 @@ import {
   Routes,
 } from "react-router-dom";
 import "./index.css";
-import ProtectedRoute from "./pages/private/ProtectedRoute";
-import User from "./pages/private/user/User";
-import Login from "./pages/public/login/Login";
-import SignUp from "./pages/public/signUp/SignUp";
-import Profile from "./pages/private/profile/Profile";
 import { AuthProvider } from "./provider/Auth";
+
+const User = React.lazy(() => import("./pages/private/user/User"));
+const Profile = React.lazy(() => import("./pages/private/profile/Profile"));
+const Login = React.lazy(() => import("./pages/public/login/Login"));
+const SignUp = React.lazy(() => import("./pages/public/signUp/SignUp"));
+const ProtectedRoute = React.lazy(
+  () => import("./pages/private/ProtectedRoute")
+);
 
 function App() {
   return (
@@ -27,7 +31,9 @@ function App() {
             path="/dashboard/user"
             element={
               <ProtectedRoute>
-                <User />
+                <Suspense fallback={<div>Loading...</div>}>
+                  <User />
+                </Suspense>
               </ProtectedRoute>
             }
           />
@@ -35,7 +41,9 @@ function App() {
             path="/profile"
             element={
               <ProtectedRoute>
-                <Profile />
+                <Suspense fallback={<div>Loading...</div>}>
+                  <Profile />
+                </Suspense>
               </ProtectedRoute>
             }
           />

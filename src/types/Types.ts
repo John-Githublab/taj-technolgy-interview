@@ -7,15 +7,17 @@ export interface ApiResponse {
 export interface UserApiResponse {
   message: string;
   code: number;
-  data: {
-    rows: User[];
-    pages: number;
-    filterRecords: number;
-    responseCode: number;
-  };
+  data: UserListType;
 }
 
-interface User {
+export interface UserListType {
+  rows: User[];
+  pages: number;
+  filterRecords: number;
+  responseCode: number;
+}
+
+export interface User {
   first_name: string;
   last_name: string;
   email: string;
@@ -39,4 +41,4 @@ export interface TableConfig {
   pageSize: number;
   search?: string;
 }
-type TableConfigType = "create" | "edit" | "delete";
+type TableConfigType = "" | "create" | "edit" | "view" | "delete";

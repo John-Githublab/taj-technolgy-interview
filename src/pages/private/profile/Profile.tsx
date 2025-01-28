@@ -34,7 +34,7 @@ const Profile = () => {
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const response: ApiResponse = await APIRequest.request(
+    const response = await APIRequest.request(
       "POST",
       ConfigApiUrl.updateUser,
       userForm

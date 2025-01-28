@@ -1,3 +1,5 @@
+import { TableConfig } from "../types/Types";
+
 const constant = {
   userTypes: [
     { label: "Admin", value: "admin" },
@@ -10,7 +12,7 @@ const constant = {
     type: "",
     page: 0,
     pageSize: 10,
-  },
+  } as TableConfig,
   userForm: {
     role: "user",
   },
