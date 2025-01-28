@@ -31,4 +31,5 @@ jobs:
         run: npm install --force
       - name: Check Rollup version
         run: npx rollup --version
-      - run: npm start
+      - name: build the production
+        run: npm run build
