@@ -25,5 +25,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-      - run: npm install
+      - name: Clear npm cache
+        run: npm cache clean --force
+      - name: install dependency
+        run: npm install --force
+      - name: Check Rollup version
+        run: npx rollup --version
       - run: npm start
